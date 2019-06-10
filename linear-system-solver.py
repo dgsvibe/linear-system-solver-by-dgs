@@ -1,3 +1,5 @@
+#fazendo um teste pro github
+
 import numpy
 import os
 def clear_screen():
@@ -65,12 +67,12 @@ def header():
 def calc():
     print("	\033[1;93m")
     matrix_order = int(input("Type the coefficients matrix order: "))
+    c_matrix=[]
     q = matrix_order
     for (i) in range(q):
         for (j) in range(q):
-            c_matrix = [].append(int(input("Insert the element A"+str(i+1)+str(j+1)+":")))
-    print(c_matrix)
-    return 0
+            c_matrix.append(int(input("Insert the element A"+str(i+1)+str(j+1)+":")))
+
 
 calc()
 
