@@ -1,5 +1,3 @@
-#fazendo um teste pro github
-
 import numpy
 import os
 def clear_screen():
