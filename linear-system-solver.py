@@ -1,17 +1,15 @@
 import numpy
 import os
+
+cm=''
+im=''
+result=''
+matrix_order=''
+
 def clear_screen():
     print("\n" * os.get_terminal_size().lines)
     print("\x1b[2J\x1b[1;1H")
-def drawing_matrix(matrix_order):
-    var_to_range=matrix_order+1
-    for i in range(var_to_range): #matrix lines iteration
-        for j in range(var_to_range): #matrix columns iteration
-            if j == 0:
-                print("|a"+str(i+1)+str(j+1)+"   ")
-                print("")
-            if j == var_to_range:
-                print("|")
+
 def header():
     print("\033[1;91m           .: Developed by D. Viana :.")
     print("\033[0;93m")
@@ -33,28 +31,6 @@ def header():
     print("           .' /:`. ''-.:     .-'' .';  `.")
     print("        .-''  / ;  ''-. ''-..-'' .-''  :  ''-.")
     print("     .+''-.  : :      ''-.__.-''      ;-._   \\")
-    """    print("     ; \\  `.; ;                      : : ''+. ;")
-    print("     :  ;   ; ;                       : ;  : \\:")
-    print("     ;  :   ; :                        ;:   ;  :")
-    print("    : \\  ;  :  ;                     : ;  /  ::")
-    print("    ;  ; :   ; :                      ;   :   ;:")
-    print("    :  :  ;  :  ;                    : :  ;  : ;")
-    print("    ;\\    :   ; :                   ; ;     ; ;")
-    print("    : `.''-;   :  ;                 :  ;    /  ;")
-    print("     ;    -:   ; :                 ;  : .-''   :")
-    print("     :\\     \\  :  ;               : \\.-''    :")
-    print("      ;`.    \\  ; :                 ;.'_..--  / ;")
-    print("      :  ''-.  ''-:  ;         :/.''       .'  :")
-    print("       \\         \\ :          ;/  __         :")
-    print("        \\       .-`.\\       /t-''  '':-+.   :")
-    print("         `.  .-'''    `l  __/ /`. :  ; ; \\  ;")
-    print("           \\   .-'' .-''-.-''  .' .''j \/;/")
-    print("            \\ / .-''   /.     .'.' ;_:' ;")
-    print("             :-""-.`./-.'     /    `.___.'")
-    print("                   \\ `t  ._  /")
-    print("                    ''-.t-._:'")
-    """
-
     confirmation = int(input())
     if confirmation == 1:
         clear_screen()
@@ -62,21 +38,43 @@ def header():
         print("Bye!")
         return 0
 
-def calc():
+def catch_data():
+    global cm #retoma a propriedade de global da variavel da matriz dos coeficientes cm
+    global im #análogo, para a matriz de entrada im
+    global matrix_order #análogo, para a variavel que guarda a ordem da matriz
     print("	\033[1;93m")
-    matrix_order = int(input("Type the coefficients matrix order: "))
-    c_matrix=[]
-    q = matrix_order
-    for (i) in range(q):
-        for (j) in range(q):
-            c_matrix.append(int(input("Insert the element A"+str(i+1)+str(j+1)+":")))
+    c_matrix_order = int(input("Type the coefficients matrix order (2/3): "))
+    if c_matrix_order == 2:
+        matrix_order = 2
+        cm = [[0, 0],[0, 0]]
+        im = [0, 0]
+        for i in range(2):
+            for j in range(2):
+                cm[i][j] = complex(input('Insira o elemento C'+str(i+1)+str(j+1)+': '))
+        clear_screen()
+        for i in range(2):
+            im[i] = complex(input('Insira o elemento I'+str(i+1)+': '))
+    if c_matrix_order == 3:
+        matrix_order = 3
+        cm = [[0, 0, 0],[0, 0, 0],[0, 0, 0]]
+        im = [0, 0, 0]
+        for i in range(3):
+            for j in range(3):
+                cm[i][j] = complex(input('Insira o elemento A'+str(i+1)+str(j+1)+': '))
+        clear_screen()
+        for i in range(3):
+            im[i] = complex(input('Insira o elemento I'+str(i+1)+': '))
+    clear_screen()
+def calc():
+    catch_data()
+    global cm
+    global im
+    global result
+    coefficients_matrix = numpy.array(cm)
+    scalars_matrix = numpy.array(im)
+    result = numpy.linalg.solve(coefficients_matrix, scalars_matrix)
+    return result
 
-
-calc()
-
-
-#coefficients_matrix = numpy.array([[-1,1],[1,1]])
-#scalars_matrix = numpy.array([4,5])
-
-#result = numpy.linalg.solve(coefficients_matrix, scalars_matrix)
-#print(result)
+header()
+res = calc()
+print(res,end='\n\n\n')
